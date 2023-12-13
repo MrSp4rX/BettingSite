@@ -1,0 +1,100 @@
+{% extends "base.html" %} {% block body %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/withdrawl.css') }}" />
+<script src="{{ url_for('static', filename='js/copy.js') }}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recharge.css') }}" />
+<script src="{{ url_for('static', filename='js/payment_methods.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/payment_methods.css') }}" />
+<div class="jumbotron mt-3">
+    <h4 class="mt-3">Available Payment Methods -</h4>
+    <form class="mt-4" id="form" action="/add_payment_method" method="post">
+        <ul style="list-style: none">
+            {% for payment_type, payment_method in payment_methods.items() %} 
+                {% if payment_type == "upi" %}
+                    {% if payment_method|length > 0 %}
+                        <h5>UPI IDs</h5>
+                        {% for upi in payment_method %}
+                            <li>{{upi.split('@')[0][0:4] }}****@{{ upi.split('@')[1]}}</li>{% endfor %}
+                        <br />
+                    
+                        {% else %} {% endif %}
+
+                {% elif payment_type == "bank" %} 
+                    {% if payment_method|length > 0 %}
+                        <h5>Bank Accounts</h5>
+                        {% for account in payment_method %}
+                         <li>{{account['ifsc_code'][0:2]}}******{{account['ifsc_code'][-3:]}} ****{{account['account_number'][-4:]}}</li>{% endfor %}
+                         <br />
+                    {% else %} {% endif %}
+                    
+                {% elif payment_type == "wallet" %} 
+                    {% if payment_method|length > 0 %}
+                        <h5>Wallets</h5>
+                        {% for wallets in payment_method %} 
+                            {% for wallet_type, mobile_number in wallets.items() %}
+                                <li>{{wallet_type.capitalize()}} - *******{{mobile_number[7:10]}}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    {% else %} {% endif %} 
+            <br />
+            {% else %}  {% endif %} {% endfor %}
+            <li>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                        aria-expanded="false">
+                        Choose Payment Method
+                    </button>
+                    <div class="dropdown-menu">
+                        <button type="button" id="upi" onclick="upifunc()" class="dropdown-item">
+                            UPI ID
+                        </button>
+                        <button type="button" id="bank" onclick="bankfunc()" class="dropdown-item">
+                            Bank Account
+                        </button>
+                        <button type="button" id="wallet" onclick="walletfunc()" class="dropdown-item">
+                            Wallet
+                        </button>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="invisible mt-2" id="upi_input">
+                    <input style="border-radius: 4px" type="text" id="a" name="upi_id" placeholder="UPI ID" />
+                </div>
+            </li>
+
+            <li>
+                <div class="invisible mt-2" id="bank_input">
+                    <input style="border-radius: 4px" class="mt-1" id="b" type="text" name="acc_name"
+                        placeholder="Account Holder's Name" /><br />
+                    <input style="border-radius: 4px" class="mt-1" id="c" type="password" name="acc_no"
+                        placeholder="Account No." /><br />
+                    <input style="border-radius: 4px" class="mt-1" id="d" type="number" name="conf_acc_no"
+                        placeholder="Confirm Account No." /><br />
+                    <input style="border-radius: 4px; text-transform: uppercase" id="e" class="mt-1" type="text"
+                        name="acc_ifsc" placeholder="IFSC Code" /><br />
+                </div>
+            </li>
+            <li>
+                <div class="invisible mt-2" id="wallet_input">
+                    <div class="dropdown">
+                        <label for="wallets">Wallet - </label>
+                        <select style="border-radius: 4px" id="wallets" name="wallet">
+                            <option id="f" value="paytm">Paytm</option>
+                            <option id="g" value="amazon_pay">Amazon Pay</option>
+                        </select>
+                    </div>
+                    <input id="h" style="border-radius: 4px" type="number" name="number" placeholder="Mobile Number" />
+                </div>
+            </li>
+        </ul>
+        <button style="margin-left: 42px" class="btn btn-outline-success mt-2" onClick="empty();" type="button">
+            Add Payment Method
+        </button>
+    </form>
+</div>
+<div id="snackbar">Please Enter Any Payment Method!</div>
+
+{% endblock %}

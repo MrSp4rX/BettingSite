@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block body %}
+
+<div class="jumbotron mt-3">
+    <h4 class="mt-3">Available Payment Methods - </h4>
+    <form action="/withdrawl" method="post">
+        
+
+        {% for payment_type, payment_method in payment_methods.items() %}
+            <div class="btn-group mt-2">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{{ payment_type.upper() }}</button>
+
+            {% if payment_type == "upi" %}
+                <div class="dropdown-menu dropdown-menu-right">
+                {% for upi in payment_method %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="upi" id="exampleRadios2" value="{{upi}}">
+                        <label class="form-check-label" for="exampleRadios2">{{  upi.split('@')[0][0:4]  }}****@{{ upi.split('@')[1] }}</label>
+                    </div>
+                {% endfor %}
+                </div>
+                </div>
+
+            {% elif payment_type == "bank" %}
+                <div class="dropdown-menu dropdown-menu-right">
+                {% for account in payment_method %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="bank" id="exampleRadios2" value="{{account['account_number'][-4:]}}">
+                        <label class="form-check-label" for="exampleRadios2">****{{account['account_number'][-4:]}}</label>
+                    </div>
+                {% endfor %}
+                </div>
+                </div>
+            {% elif payment_type == "wallet" %}
+                <div class="dropdown-menu dropdown-menu-right">
+                {% for wallets in payment_method %}
+                    {% for wallet_type, mobile_number in wallets.items() %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="wallet" id="exampleRadios2" value="{{wallet_type, mobile_number[7:10]}}">
+                            <label class="form-check-label" for="exampleRadios2">{{wallet_type.capitalize()}} - ****{{mobile_number[7:10]}}</label>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                </div>
+                </div>
+            {% else %}
+                pass
+            {% endif %}
+        {% endfor %}
+        
+        <div style="height:fit-content; width:fit-content;"><button type="submit" class="btn mt-4 btn-success">Withdrawl Confirm?</button></div>
+    </form>
+    <br><br>
+    <h1 class="display-4">Important Steps</h1>
+    <ul>
+        <li>After Withdrawl the Money will be Deposited within 24-36 Hours.</li>
+        <li>Having Issues? <a href="/customer_support">Contact Support</a>.</li>
+        <li>See withdrawl Status <a href="/withdrawl_status">here</a>.</li>
+        <li>Your Money is Safe with Us.</li>
+    </ul>
+</div>
+
+{% endblock %}

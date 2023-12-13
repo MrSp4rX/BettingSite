@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block body %}
+
+{% if request.args.get("type") == None %}
+    <div class="mt-2 mb-2 rounded alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Warning</strong> Parameters are Missing!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% else %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recharge.css') }}">
+<div class="jumbotron mt-3">
+    <h1 class="display-4">Attention!</h1>
+    <h4>Read Carefully and Follow:</h4>
+    <ol>
+        <li>If you got the Following the Error without any Reason?</li>
+        <li>Were you doing anything beyond the rules?.</li>
+        <li>Are you a Bug Hunter?</li>
+        <li>You tryna mess with us?</li>
+        <li>Any other thing to tell us?</li>
+    </ol>
+    <br><br>
+    <form action="/customer_support">
+        <button type="submit" class="btn btn-success">Chat Us?</button>
+    </form>
+</div>
+
+{% endblock %}

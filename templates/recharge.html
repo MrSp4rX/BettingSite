@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recharge.css') }}">
+<div class="jumbotron mt-3">
+    <h1 class="display-4">Attention!</h1>
+    <h4>Read Carefully and Follow:</h4>
+    <ol>
+        <li>Send Payment to Given UPI IDs</li>
+        <li>Copy their Reference Number or UTR Number.</li>
+        <li>After sending Payment wait for 2 Minutes.</li>
+        <li>Then Enter that Reference Number or UTR Number to Verify your Payment.</li>
+        <li>Congo! Money will Automatically be Added to Your Account.</li>
+    </ol>
+    <br><br><br>
+    <div id="snackbar">Copied!</div>
+    <ul>
+        <li><div style="display: inline;"><strong id="upi_1">mrsp4rx@upi </strong></div><div style="display: inline;"><img onclick="copy('upi_1')" src="{{ url_for('static', filename='img/copy.png') }}" alt="Copy Icon"></div></li>
+        <!-- <li><div style="display: inline;"><strong id="upi_2">9519874704@ibl </strong></div><div style="display: inline;"><img onclick="copy('upi_2')" src="{{ url_for('static', filename='img/copy.png') }}" alt="Copy Icon"></div></li> -->
+    </ul>
+    <br><br>
+    <form action="/verify-payment">
+        <button type="submit" class="btn btn-success">Sent Payment?</button>
+    </form>
+  </div>
+  <script src="{{ url_for('static', filename='js/copy.js') }}"></script>
+
+{% endblock %}

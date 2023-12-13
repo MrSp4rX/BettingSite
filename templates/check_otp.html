@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block body %}
+
+<form action="checkOtp" method="post">
+    <h6>Enter OTP Here: </h6>
+    <input type="text" name="otp"/>
+    <input type="submit" value="Verify">
+</form>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block body %}
+
+<div class="container mt-3">
+    <form action="/profile" method="post">
+        <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">Email</label>
+            <input value="{{data[1]}}" type="email" name="email" class="form-control" id="inputEmail4">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputUsername">Username</label>
+            <input value="{{data[0]}}" type="text" name="username" class="form-control" id="inputPassword4">
+        </div>
+        </div>
+        <div class="form-group">
+        <label>Mobile Number</label>
+        <input value="{{data[2]}}" type="text" name="number" class="form-control" id="inputAddress" placeholder="">
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button> <br>
+        <a href="/delete" type="button" class="mt-2 btn btn-danger">Delete Account</a>
+    </form>
+</div>
+
+{% endblock %}
