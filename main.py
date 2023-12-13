@@ -1,4 +1,4 @@
-from flask import * b
+from flask import *
 import sqlite3, uuid, base64, random, requests
 from urllib.parse import unquote
 import datetime
